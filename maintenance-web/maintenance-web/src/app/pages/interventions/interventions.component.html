@@ -1,0 +1,108 @@
+<div class="header mb-4">
+  <h2>Interventions Management</h2>
+  <button mat-raised-button color="primary" (click)="openModal(content)">Create Intervention</button>
+</div>
+
+<div class="table-container">
+  <table mat-table [dataSource]="interventions" matSort>
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let i"> {{ i.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="equipementId">
+      <th mat-header-cell *matHeaderCellDef> Equipement </th>
+      <td mat-cell *matCellDef="let i"> {{ i.equipementId }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="technicienId">
+      <th mat-header-cell *matHeaderCellDef> Technicien </th>
+      <td mat-cell *matCellDef="let i"> {{ i.technicienId }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="statut">
+      <th mat-header-cell *matHeaderCellDef> Statut </th>
+      <td mat-cell *matCellDef="let i"> {{ i.statut }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let i"> {{ i.date | date }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cout">
+      <th mat-header-cell *matHeaderCellDef> cout </th>
+      <td mat-cell *matCellDef="let i"> {{ i.cout}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let i">
+        <button mat-icon-button (click)="openModal(content, i)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="deleteIntervention(i.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<!-- Modal -->
+<ng-template #content let-modal>
+  <div class="modal-header" style="justify-content: space-between;">
+    <h4 class="modal-title">
+      {{ isEditMode ? 'Edit Intervention' : 'Create Intervention' }}
+    </h4>
+    <button type="button" class="close btn btn-danger" (click)="modal.dismiss('Cross click')">
+      <span>&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="interventionForm" (ngSubmit)="onSubmit(modal)">
+      <div class="form-group">
+        <label for="equipementId">Équipement</label>
+        <select class="form-control" formControlName="equipementId">
+          <option *ngFor="let e of equipements" [value]="e.id">{{ e.nom }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="technicienId">Technicien</label>
+        <select class="form-control" formControlName="technicienId">
+          <option *ngFor="let t of techniciens" [value]="t.id">{{ t.nom }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="statut">Statut</label>
+<select class="form-control" formControlName="statut">
+  <option [value]="'in progress'">In Progress</option>
+  <option [value]="'closed'" *ngIf="isEditMode" >Closed</option>
+</select>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" class="form-control" formControlName="date" />
+      </div>
+
+      <div class="form-group">
+        <label for="cout">Coût</label>
+        <input type="number" class="form-control" formControlName="cout" />
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="interventionForm.invalid">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</ng-template>

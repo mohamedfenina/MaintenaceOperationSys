@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-4" *ngIf="kpis.totalInterventions !== undefined">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Total Interventions</h5>
+        <p class="card-text">{{ kpis.totalInterventions }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-danger mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Total Pannes</h5>
+        <p class="card-text">{{ kpis.totalPannes }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-warning mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Ongoing Interventions</h5>
+        <p class="card-text">{{ kpis.ongoingInterventions }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Closed Interventions</h5>
+        <p class="card-text">{{ kpis.closedInterventions }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-info mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Avg. Cost</h5>
+        <p class="card-text">{{ kpis.averageInterventionCost | number:'1.0-2' }} TND</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-white bg-secondary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Most Frequent Equipement</h5>
+        <p class="card-text">{{ kpis.mostFrequentEquipement }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="header mb-4">
+  <h2>Equipements Management</h2>
+  <button mat-raised-button color="primary" (click)="openModal(content)">Add Equipement</button>
+</div>
+
+<div class="table-container">
+  <table mat-table [dataSource]="equipements" matSort>
+    
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let equipement"> {{ equipement.id }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+      <td mat-cell *matCellDef="let equipement"> {{ equipement.nom }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="etat">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> État </th>
+      <td mat-cell *matCellDef="let equipement"> {{ equipement.etat }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateAcquisition">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Acquisition </th>
+      <td mat-cell *matCellDef="let equipement"> {{ equipement.dateAcquisition | date }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let equipement">
+<button mat-icon-button (click)="openModal(content, equipement)">
+  <mat-icon>edit</mat-icon>
+</button>
+
+        <button mat-icon-button (click)="deleteEquipement(equipement.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header"  style="justify-content: space-between;">
+<h4 class="modal-title">
+  {{ isEditMode ? 'Edit Equipement' : 'Add Equipement' }}
+</h4>    <button type="button" class="close btn btn-danger" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="equipementForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input id="nom" type="text" class="form-control" formControlName="nom" />
+      </div>
+      <div class="form-group">
+        <label for="etat">État</label>
+        <input id="etat" type="text" class="form-control" formControlName="etat" />
+      </div>
+      <div class="form-group">
+        <label for="dateAcquisition">Date Acquisition</label>
+        <input id="dateAcquisition" type="date" class="form-control" formControlName="dateAcquisition" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel')">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="equipementForm.invalid">
+        {{ isEditMode ? 'Update' : 'Save' }}</button>
+    </div>
+    </form>
+  </div>
+</ng-template>
+
